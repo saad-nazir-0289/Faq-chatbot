@@ -15,6 +15,10 @@ from sqlmodel import Session
 
 settings = get_settings()
 static_dir = Path("app/static")
+openapi_tags = [
+    {"name": "health", "description": "Basic runtime health checks."},
+    {"name": "chat", "description": "Chat session and FAQ endpoints."},
+]
 
 
 @asynccontextmanager
@@ -25,7 +29,13 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title=settings.app_name, lifespan=lifespan)
+app = FastAPI(
+    title=settings.app_name,
+    lifespan=lifespan,
+    description="Structured FAQ chatbot demo with lead capture and consultation requests.",
+    version="1.0.0",
+    openapi_tags=openapi_tags,
+)
 
 
 app.include_router(health_router)
