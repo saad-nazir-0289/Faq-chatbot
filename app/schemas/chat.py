@@ -88,3 +88,16 @@ class ConversationHistoryResponse(BaseModel):
     session_id: str
     current_state: str
     messages: List[MessageRecord] = Field(default_factory=list)
+
+
+class ConversationSummary(BaseModel):
+    session_id: str
+    current_state: str
+    message_count: int
+    updated_at: str
+
+
+class DemoSeedResponse(BaseModel):
+    inserted_leads: int
+    inserted_appointments: int
+    inserted_conversations: int

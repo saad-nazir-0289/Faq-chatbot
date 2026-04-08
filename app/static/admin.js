@@ -2,8 +2,10 @@ const statsCardsEl = document.getElementById("statsCards");
 const leadsTableEl = document.getElementById("leadsTable");
 const appointmentsTableEl = document.getElementById("appointmentsTable");
 const refreshDashboardButtonEl = document.getElementById("refreshDashboardButton");
+const seedDemoButtonEl = document.getElementById("seedDemoButton");
 const historyFormEl = document.getElementById("historyForm");
 const sessionLookupInputEl = document.getElementById("sessionLookupInput");
+const conversationListEl = document.getElementById("conversationList");
 const historyResultEl = document.getElementById("historyResult");
 
 function escapeHtml(value) {
@@ -77,8 +79,36 @@ function renderHistory(payload) {
   `;
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url);
+function renderConversationList(conversations) {
+  if (!conversations.length) {
+    conversationListEl.innerHTML = '<p class="empty-state">No recent sessions yet.</p>';
+    return;
+  }
+
+  conversationListEl.innerHTML = conversations
+    .map(
+      (conversation) => `
+        <button class="conversation-chip" type="button" data-session-id="${escapeHtml(conversation.session_id)}">
+          <strong>${escapeHtml(conversation.current_state)}</strong>
+          <span>${escapeHtml(conversation.session_id)}</span>
+          <small>${escapeHtml(conversation.message_count)} messages</small>
+        </button>
+      `,
+    )
+    .join("");
+
+  conversationListEl.querySelectorAll("[data-session-id]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const sessionId = button.getAttribute("data-session-id");
+      sessionLookupInputEl.value = sessionId;
+      const payload = await fetchJson(`/admin/conversations/${encodeURIComponent(sessionId)}`);
+      renderHistory(payload);
+    });
+  });
+}
+
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error(`Failed request: ${url}`);
   }
@@ -86,10 +116,11 @@ async function fetchJson(url) {
 }
 
 async function loadDashboard() {
-  const [stats, leads, appointments] = await Promise.all([
+  const [stats, leads, appointments, conversations] = await Promise.all([
     fetchJson("/admin/stats"),
     fetchJson("/admin/leads"),
     fetchJson("/admin/appointments"),
+    fetchJson("/admin/conversations"),
   ]);
 
   renderStatCards(stats);
@@ -107,6 +138,7 @@ async function loadDashboard() {
     { key: "preferred_time", label: "Time" },
     { key: "status", label: "Status" },
   ]);
+  renderConversationList(conversations);
 }
 
 historyFormEl.addEventListener("submit", async (event) => {
@@ -128,8 +160,23 @@ refreshDashboardButtonEl.addEventListener("click", async () => {
   await loadDashboard();
 });
 
+seedDemoButtonEl.addEventListener("click", async () => {
+  seedDemoButtonEl.disabled = true;
+  seedDemoButtonEl.textContent = "Seeding...";
+  try {
+    await fetchJson("/admin/demo/seed", { method: "POST" });
+    await loadDashboard();
+  } catch (error) {
+    historyResultEl.innerHTML = '<p class="empty-state">Unable to seed demo data right now.</p>';
+  } finally {
+    seedDemoButtonEl.disabled = false;
+    seedDemoButtonEl.textContent = "Seed sample data";
+  }
+});
+
 loadDashboard().catch(() => {
   statsCardsEl.innerHTML = '<p class="empty-state">Unable to load dashboard data.</p>';
   leadsTableEl.innerHTML = '<p class="empty-state">Unable to load lead data.</p>';
   appointmentsTableEl.innerHTML = '<p class="empty-state">Unable to load consultation data.</p>';
+  conversationListEl.innerHTML = '<p class="empty-state">Unable to load conversation data.</p>';
 });

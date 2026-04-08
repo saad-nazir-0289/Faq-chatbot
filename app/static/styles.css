@@ -94,6 +94,12 @@ body {
   margin-bottom: 18px;
 }
 
+.panel-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -178,6 +184,33 @@ body {
 .history-log {
   display: grid;
   gap: 12px;
+}
+
+.conversation-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.conversation-chip {
+  text-align: left;
+  border: 1px solid rgba(214, 106, 55, 0.16);
+  background: #fffaf3;
+  border-radius: 16px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.conversation-chip strong,
+.conversation-chip span,
+.conversation-chip small {
+  display: block;
+}
+
+.conversation-chip span,
+.conversation-chip small {
+  color: var(--muted);
 }
 
 .history-message {

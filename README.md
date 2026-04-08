@@ -85,6 +85,8 @@ Useful built-in pages:
 | `APP_NAME` | no | UI and OpenAPI title |
 | `APP_ENV` | no | environment label |
 | `DATABASE_URL` | no | SQLite or another SQLAlchemy-compatible URL |
+| `ADMIN_USERNAME` | no | enables HTTP Basic auth for admin APIs and dashboard |
+| `ADMIN_PASSWORD` | no | password paired with `ADMIN_USERNAME` |
 | `OPENAI_API_KEY` | no | enables AI-generated phrasing |
 | `OPENAI_BASE_URL` | no | custom OpenAI-compatible endpoint |
 | `OPENAI_MODEL` | no | model name for chat completions |
@@ -96,6 +98,12 @@ Useful built-in pages:
 - `POST /chat/start` - start a conversation session
 - `POST /chat/message` - send a user message
 - `GET /faqs` - inspect seeded FAQ content
+- `GET /admin/stats` - admin summary counts
+- `GET /admin/leads` - admin lead list
+- `GET /admin/appointments` - admin consultation list
+- `GET /admin/exports/leads.csv` - export leads CSV
+- `GET /admin/exports/appointments.csv` - export consultations CSV
+- `POST /admin/demo/seed` - add sample records for demos
 
 ## How to make it work like a pro
 
@@ -132,7 +140,7 @@ You do not need to change any backend routes just to swap the dummy business con
 
 ### 5. Protect admin and data flows
 
-- add authentication before exposing internal dashboards
+- set `ADMIN_USERNAME` and `ADMIN_PASSWORD` to turn on simple HTTP Basic protection
 - log failed requests and validation errors
 - rotate API keys and never commit `.env`
 
@@ -154,6 +162,7 @@ python scripts/smoke_test.py
 
 - delete `support_chatbot.db`, or
 - run `python scripts/reset_demo.py`
+- use the `Seed sample data` button in `/admin-dashboard` when you want fresh presentable demo records
 
 ## Deployment ideas
 
@@ -168,7 +177,7 @@ See `docs/DEPLOYMENT.md` for a more practical deployment checklist.
 - if no AI key is configured, the chatbot still works
 - consultation submissions are requests only in this demo
 - the bundled data is fake and intended for demos and development
-- the admin dashboard is intentionally open in this demo, so add auth before any real deployment
+- the admin dashboard is open by default for demo convenience, but setting `ADMIN_USERNAME` and `ADMIN_PASSWORD` protects it immediately
 
 ## License
 

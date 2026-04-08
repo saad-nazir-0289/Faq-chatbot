@@ -6,7 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.api.routes.admin import router as admin_router
+from fastapi import Depends
+
+from app.api.routes.admin import require_admin, router as admin_router
 from app.api.routes.chat import router as chat_router
 from app.api.routes.health import router as health_router
 from app.core.config import get_settings
@@ -61,5 +63,5 @@ def index() -> FileResponse:
 
 
 @app.get("/admin-dashboard", include_in_schema=False)
-def admin_dashboard() -> FileResponse:
+def admin_dashboard(_: None = Depends(require_admin)) -> FileResponse:
     return FileResponse(static_dir / "admin.html")

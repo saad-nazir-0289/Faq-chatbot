@@ -28,7 +28,10 @@
               <p class="label">Overview</p>
               <h2>Live counts</h2>
             </div>
-            <button id="refreshDashboardButton" class="ghost-button" type="button">Refresh</button>
+            <div class="panel-actions">
+              <button id="seedDemoButton" class="ghost-button" type="button">Seed sample data</button>
+              <button id="refreshDashboardButton" class="ghost-button" type="button">Refresh</button>
+            </div>
           </div>
           <div id="statsCards" class="stats-cards"></div>
         </article>
@@ -39,6 +42,7 @@
               <p class="label">Leads</p>
               <h2>Captured contacts</h2>
             </div>
+            <a class="ghost-link" href="/admin/exports/leads.csv">Export CSV</a>
           </div>
           <div id="leadsTable" class="table-wrap"></div>
         </article>
@@ -49,6 +53,7 @@
               <p class="label">Consultations</p>
               <h2>Appointment requests</h2>
             </div>
+            <a class="ghost-link" href="/admin/exports/appointments.csv">Export CSV</a>
           </div>
           <div id="appointmentsTable" class="table-wrap"></div>
         </article>
@@ -64,6 +69,7 @@
             <input id="sessionLookupInput" type="text" placeholder="Paste a session id" autocomplete="off" />
             <button type="submit">Load</button>
           </form>
+          <div id="conversationList" class="conversation-list"></div>
           <div id="historyResult" class="history-result">
             <p class="empty-state">Enter a session id from the SQLite data to inspect the transcript.</p>
           </div>
