@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Optional
 
 from sqlalchemy import Column, Text
@@ -8,7 +8,7 @@ from sqlmodel import Field, SQLModel
 
 
 def utcnow() -> datetime:
-    return datetime.utcnow()
+    return datetime.now(UTC)
 
 
 class FAQ(SQLModel, table=True):

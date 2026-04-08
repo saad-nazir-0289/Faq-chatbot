@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from uuid import uuid4
 
 from sqlmodel import Session, select
@@ -22,9 +22,11 @@ def create_conversation(session: Session) -> ChatStartResponse:
     session.add(conversation)
     session.commit()
     session.refresh(conversation)
+    assert conversation.id is not None
+    conversation_id = conversation.id
 
     bot_message = Message(
-        conversation_id=conversation.id,
+        conversation_id=conversation_id,
         role="assistant",
         content=WELCOME_MESSAGE,
         metadata_json=dumps_json(
@@ -46,10 +48,12 @@ async def handle_message(session: Session, session_id: str, user_message: str) -
     conversation = session.exec(select(Conversation).where(Conversation.session_id == session_id)).first()
     if not conversation:
         raise ValueError("Conversation not found")
+    assert conversation.id is not None
+    conversation_id = conversation.id
 
     session.add(
         Message(
-            conversation_id=conversation.id,
+            conversation_id=conversation_id,
             role="user",
             content=user_message,
             metadata_json="{}",
@@ -62,13 +66,13 @@ async def handle_message(session: Session, session_id: str, user_message: str) -
 
     conversation.current_state = result.state
     conversation.collected_data = dumps_json(result.collected_data)
-    conversation.updated_at = datetime.utcnow()
+    conversation.updated_at = datetime.now(UTC)
     session.add(conversation)
     session.commit()
 
     session.add(
         Message(
-            conversation_id=conversation.id,
+            conversation_id=conversation_id,
             role="assistant",
             content=result.message,
             metadata_json=dumps_json({"quick_replies": result.quick_replies}),
