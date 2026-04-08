@@ -1,0 +1,38 @@
+[
+  {
+    "question": "What does Northstar Solar install?",
+    "answer": "Northstar Solar installs rooftop solar systems, battery backup units, EV charger add-ons, and small commercial energy packages for offices and retail spaces.",
+    "tags": ["services", "install", "solar"],
+    "active": true
+  },
+  {
+    "question": "How quickly does Northstar Solar follow up?",
+    "answer": "Northstar Solar usually reviews new leads and consultation requests within one business day. For urgent battery backup inquiries, the team aims to reply the same day.",
+    "tags": ["follow up", "lead", "response time"],
+    "active": true
+  },
+  {
+    "question": "Can I request a consultation through the chatbot?",
+    "answer": "Yes. The chatbot can collect your contact details, preferred date, preferred time, and project notes, then submit a consultation request for the Northstar Solar team.",
+    "tags": ["appointment", "booking", "consultation"],
+    "active": true
+  },
+  {
+    "question": "How much does a typical installation cost?",
+    "answer": "For this demo business, most residential projects start around $12,000 before incentives, while larger battery-backed systems can be higher depending on roof size, usage, and equipment choice.",
+    "tags": ["pricing", "cost", "quote"],
+    "active": true
+  },
+  {
+    "question": "How long does installation take?",
+    "answer": "For this demo business, a standard residential install usually takes one to two days on site after design approval and permit completion.",
+    "tags": ["timeline", "install time", "schedule"],
+    "active": true
+  },
+  {
+    "question": "Do you support commercial projects?",
+    "answer": "Yes. Northstar Solar handles small commercial projects for offices, cafes, clinics, and retail locations, and the chatbot can capture your requirements for a follow-up estimate.",
+    "tags": ["commercial", "business", "quote"],
+    "active": true
+  }
+]

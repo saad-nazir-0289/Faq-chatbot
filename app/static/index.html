@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Northstar Solar Concierge</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Northstar Solar concierge</p>
+        <h1>Quote-ready support for a fake solar brand.</h1>
+        <p class="subcopy">
+          This demo assistant answers common questions, captures residential or commercial leads, and accepts consultation requests for a fictional installer called Northstar Solar.
+        </p>
+      </section>
+
+      <section class="chat-panel">
+        <div class="chat-header">
+          <div>
+            <p class="label">Demo chatbot</p>
+            <h2>Northstar Solar</h2>
+          </div>
+          <span class="status">Online</span>
+        </div>
+
+        <div id="messages" class="messages"></div>
+
+        <div id="quickReplies" class="quick-replies"></div>
+
+        <form id="chatForm" class="composer">
+          <input id="messageInput" type="text" placeholder="Ask about pricing, installation, or request a consultation..." autocomplete="off" />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <template id="messageTemplate">
+      <div class="message-row">
+        <div class="message"></div>
+      </div>
+    </template>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
