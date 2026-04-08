@@ -43,3 +43,48 @@ class FlowResult(BaseModel):
     appointment_requested: bool = False
     lead_record: Optional[Dict[str, Any]] = None
     appointment_record: Optional[Dict[str, Any]] = None
+
+
+class LeadRecord(BaseModel):
+    id: int
+    name: str
+    email: str
+    phone: str
+    company: str
+    need: str
+    source: str
+    created_at: str
+
+
+class AppointmentRecord(BaseModel):
+    id: int
+    lead_id: Optional[int] = None
+    name: str
+    email: str
+    phone: str
+    company: str
+    need: str
+    preferred_date: str
+    preferred_time: str
+    notes: str
+    status: str
+    created_at: str
+
+
+class AdminStatsResponse(BaseModel):
+    faq_count: int
+    conversation_count: int
+    lead_count: int
+    appointment_request_count: int
+
+
+class MessageRecord(BaseModel):
+    role: str
+    content: str
+    created_at: str
+
+
+class ConversationHistoryResponse(BaseModel):
+    session_id: str
+    current_state: str
+    messages: List[MessageRecord] = Field(default_factory=list)
