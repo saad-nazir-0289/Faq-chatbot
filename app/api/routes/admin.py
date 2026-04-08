@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
-from app.db.models import AppointmentRequest, Conversation, FAQ, Lead
+from app.db.models import AppointmentRequest, Conversation, FAQ, Lead, Message
 from app.db.session import get_session
-from app.schemas.chat import AdminStatsResponse, AppointmentRecord, LeadRecord
+from app.schemas.chat import AdminStatsResponse, AppointmentRecord, ConversationHistoryResponse, LeadRecord, MessageRecord
 
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -61,3 +61,20 @@ def admin_stats(session: Session = Depends(get_session)) -> AdminStatsResponse:
         lead_count=lead_count,
         appointment_request_count=appointment_request_count,
     )
+
+
+@router.get("/conversations/{session_id}", response_model=ConversationHistoryResponse)
+def conversation_history(session_id: str, session: Session = Depends(get_session)) -> ConversationHistoryResponse:
+    conversation = session.exec(select(Conversation).where(Conversation.session_id == session_id)).first()
+    messages = []
+    if conversation:
+        messages = session.exec(select(Message).where(Message.conversation_id == conversation.id).order_by(Message.created_at)).all()
+        return ConversationHistoryResponse(
+            session_id=conversation.session_id,
+            current_state=conversation.current_state,
+            messages=[
+                MessageRecord(role=message.role, content=message.content, created_at=message.created_at.isoformat())
+                for message in messages
+            ],
+        )
+    return ConversationHistoryResponse(session_id=session_id, current_state="missing", messages=[])
