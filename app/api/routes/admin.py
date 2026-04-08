@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
 
-from app.db.models import AppointmentRequest, Lead
+from app.db.models import AppointmentRequest, Conversation, FAQ, Lead
 from app.db.session import get_session
-from app.schemas.chat import AppointmentRecord, LeadRecord
+from app.schemas.chat import AdminStatsResponse, AppointmentRecord, LeadRecord
 
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -47,3 +47,17 @@ def list_appointments(session: Session = Depends(get_session)) -> list[Appointme
         )
         for item in appointments
     ]
+
+
+@router.get("/stats", response_model=AdminStatsResponse)
+def admin_stats(session: Session = Depends(get_session)) -> AdminStatsResponse:
+    faq_count = len(session.exec(select(FAQ)).all())
+    conversation_count = len(session.exec(select(Conversation)).all())
+    lead_count = len(session.exec(select(Lead)).all())
+    appointment_request_count = len(session.exec(select(AppointmentRequest)).all())
+    return AdminStatsResponse(
+        faq_count=faq_count,
+        conversation_count=conversation_count,
+        lead_count=lead_count,
+        appointment_request_count=appointment_request_count,
+    )
