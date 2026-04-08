@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.api.routes.admin import router as admin_router
 from app.api.routes.chat import router as chat_router
 from app.api.routes.health import router as health_router
 from app.core.config import get_settings
@@ -19,6 +20,7 @@ static_dir = Path("app/static")
 openapi_tags = [
     {"name": "health", "description": "Basic runtime health checks."},
     {"name": "chat", "description": "Chat session and FAQ endpoints."},
+    {"name": "admin", "description": "Demo admin inspection endpoints."},
 ]
 
 
@@ -49,6 +51,7 @@ app.add_middleware(
 
 app.include_router(health_router)
 app.include_router(chat_router)
+app.include_router(admin_router)
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 
