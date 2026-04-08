@@ -2,7 +2,7 @@
 
 `Faq-chatbot` is a FastAPI chatbot starter built for businesses that need always-on customer support.
 
-The bundled demo ships with a fictional company called `Northstar Solar`, so you can run the app immediately, test realistic flows, and then swap the dummy content with your own business details.
+The bundled demo ships with a fictional company called `Northstar Solar`, so you can run the app immediately, test realistic flows, and keep the dummy data for demos as long as you want.
 
 ## What it does
 
@@ -11,6 +11,7 @@ The bundled demo ships with a fictional company called `Northstar Solar`, so you
 - accepts appointment or consultation requests
 - stores conversations, leads, and requests in SQLite
 - serves a built-in responsive web chat UI
+- includes a built-in admin dashboard for reviewing demo leads and consultation requests
 - works without an external AI key using deterministic fallback responses
 
 ## Demo business included
@@ -71,6 +72,12 @@ python -m uvicorn app.main:app --reload
 
 Open `http://127.0.0.1:8000`.
 
+Useful built-in pages:
+
+- `http://127.0.0.1:8000/` - chat demo
+- `http://127.0.0.1:8000/admin-dashboard` - admin dashboard for leads, consultations, and session lookup
+- `http://127.0.0.1:8000/docs` - API explorer
+
 ## Environment variables
 
 | Variable | Required | Purpose |
@@ -92,11 +99,18 @@ Open `http://127.0.0.1:8000`.
 
 ## How to make it work like a pro
 
-### 1. Replace the demo business
+### 1. Keep the dummy demo, or replace it later
+
+If you are showcasing the project, you can leave the fake `Northstar Solar` content exactly as it is.
+
+If you want to rebrand it someday:
 
 - update `data/faqs.json` with real questions and answers
 - replace `Northstar Solar` copy in `app/static/index.html` and `app/services/chatbot.py`
+- update the admin page branding in `app/static/admin.html`
 - tune field prompts in `app/services/flow_engine.py`
+
+You do not need to change any backend routes just to swap the dummy business content.
 
 ### 2. Set a real AI provider
 
@@ -125,14 +139,14 @@ Open `http://127.0.0.1:8000`.
 ### 6. Validate before deployment
 
 - run `python -m compileall app`
-- run `pytest`
+- run `python -m pytest`
 - run `python scripts/smoke_test.py`
 
 ## Developer workflow
 
 ```bash
 python -m compileall app
-pytest
+python -m pytest
 python scripts/smoke_test.py
 ```
 
@@ -154,6 +168,7 @@ See `docs/DEPLOYMENT.md` for a more practical deployment checklist.
 - if no AI key is configured, the chatbot still works
 - consultation submissions are requests only in this demo
 - the bundled data is fake and intended for demos and development
+- the admin dashboard is intentionally open in this demo, so add auth before any real deployment
 
 ## License
 

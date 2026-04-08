@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Northstar Solar Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="admin-shell">
+      <section class="admin-hero">
+        <p class="eyebrow">Demo admin view</p>
+        <h1>Northstar Solar pipeline snapshot.</h1>
+        <p class="subcopy">
+          This page reads the same fake demo data captured by the chatbot so you can review leads, consultation requests,
+          and conversation history without adding a separate frontend stack.
+        </p>
+        <div class="admin-links">
+          <a class="ghost-link" href="/">Open chat demo</a>
+          <a class="ghost-link" href="/docs">Open API docs</a>
+        </div>
+      </section>
+
+      <section class="admin-grid">
+        <article class="admin-panel stats-panel">
+          <div class="panel-header">
+            <div>
+              <p class="label">Overview</p>
+              <h2>Live counts</h2>
+            </div>
+            <button id="refreshDashboardButton" class="ghost-button" type="button">Refresh</button>
+          </div>
+          <div id="statsCards" class="stats-cards"></div>
+        </article>
+
+        <article class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <p class="label">Leads</p>
+              <h2>Captured contacts</h2>
+            </div>
+          </div>
+          <div id="leadsTable" class="table-wrap"></div>
+        </article>
+
+        <article class="admin-panel">
+          <div class="panel-header">
+            <div>
+              <p class="label">Consultations</p>
+              <h2>Appointment requests</h2>
+            </div>
+          </div>
+          <div id="appointmentsTable" class="table-wrap"></div>
+        </article>
+
+        <article class="admin-panel history-panel">
+          <div class="panel-header">
+            <div>
+              <p class="label">Conversations</p>
+              <h2>Session history lookup</h2>
+            </div>
+          </div>
+          <form id="historyForm" class="history-form">
+            <input id="sessionLookupInput" type="text" placeholder="Paste a session id" autocomplete="off" />
+            <button type="submit">Load</button>
+          </form>
+          <div id="historyResult" class="history-result">
+            <p class="empty-state">Enter a session id from the SQLite data to inspect the transcript.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="/static/admin.js"></script>
+  </body>
+</html>

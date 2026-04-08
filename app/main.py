@@ -58,3 +58,8 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 @app.get("/", include_in_schema=False)
 def index() -> FileResponse:
     return FileResponse(static_dir / "index.html")
+
+
+@app.get("/admin-dashboard", include_in_schema=False)
+def admin_dashboard() -> FileResponse:
+    return FileResponse(static_dir / "admin.html")

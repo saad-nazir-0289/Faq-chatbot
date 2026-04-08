@@ -2,7 +2,9 @@
 
 ## Rebrand the demo
 
+- keep the bundled `Northstar Solar` copy if you want a ready-made dummy business
 - update `app/static/index.html`
+- update `app/static/admin.html`
 - update `app/services/chatbot.py`
 - update `data/faqs.json`
 
