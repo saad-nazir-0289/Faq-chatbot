@@ -90,6 +90,12 @@ body {
   background: linear-gradient(180deg, rgba(255, 250, 242, 0.95), rgba(255, 247, 238, 0.82));
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .status {
   padding: 8px 12px;
   border-radius: 999px;
@@ -138,6 +144,22 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   padding: 0 18px 18px;
+}
+
+.helper-copy {
+  margin: 0;
+  padding: 0 18px 18px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.ghost-button {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
 .quick-replies button {

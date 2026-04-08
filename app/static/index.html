@@ -22,12 +22,17 @@
             <p class="label">Demo chatbot</p>
             <h2>Northstar Solar</h2>
           </div>
-          <span class="status">Online</span>
+          <div class="header-actions">
+            <span class="status">Online</span>
+            <button id="resetChatButton" class="ghost-button" type="button">New chat</button>
+          </div>
         </div>
 
         <div id="messages" class="messages"></div>
 
         <div id="quickReplies" class="quick-replies"></div>
+
+        <p class="helper-copy">Try: pricing estimate, install time, battery backup, or commercial solar quote.</p>
 
         <form id="chatForm" class="composer">
           <input id="messageInput" type="text" placeholder="Ask about pricing, installation, or request a consultation..." autocomplete="off" />

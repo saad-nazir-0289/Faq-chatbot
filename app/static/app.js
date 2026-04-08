@@ -3,6 +3,7 @@ const quickRepliesEl = document.getElementById("quickReplies");
 const formEl = document.getElementById("chatForm");
 const inputEl = document.getElementById("messageInput");
 const template = document.getElementById("messageTemplate");
+const resetButtonEl = document.getElementById("resetChatButton");
 
 let sessionId = window.localStorage.getItem("support-chat-session") || "";
 
@@ -26,6 +27,7 @@ function renderQuickReplies(replies) {
 }
 
 async function startChat() {
+  messagesEl.innerHTML = "";
   const response = await fetch("/chat/start", { method: "POST" });
   const payload = await response.json();
   sessionId = payload.session_id;
@@ -78,3 +80,10 @@ formEl.addEventListener("submit", async (event) => {
 });
 
 startChat();
+
+resetButtonEl.addEventListener("click", async () => {
+  sessionId = "";
+  window.localStorage.removeItem("support-chat-session");
+  renderQuickReplies([]);
+  await startChat();
+});
